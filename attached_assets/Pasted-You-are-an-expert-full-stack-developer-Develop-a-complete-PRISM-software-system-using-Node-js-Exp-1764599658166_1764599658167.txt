@@ -1,0 +1,251 @@
+You are an expert full-stack developer.
+Develop a complete PRISM software system using Node.js + Express backend, React frontend, and strictly MySQL Workbench database.
+DO NOT use PostgreSQL, SQLite or any other DB.
+Use the following real MySQL credentials exactly:
+
+MYSQL_HOST=127.0.0.1  
+MYSQL_USER=root  
+MYSQL_PASSWORD=12345  
+MYSQL_DATABASE=prism
+
+
+Use the mysql2/promise library for MySQL connection.
+
+✅ 1. PROJECT STRUCTURE
+
+Create the following backend structure:
+
+/backend
+  /config/db.js
+  /controllers/*.js
+  /routes/*.js
+  /models/*.js
+  /middleware/auth.js
+  server.js
+/frontend
+  src/
+    pages/
+    components/
+    layouts/
+    services/api.js
+
+✅ 2. DATABASE — CREATE ALL TABLES (MySQL)
+
+Generate full SQL schema and automatically write .sql file containing:
+
+User Tables
+
+users (username, password, security_pin, role: admin / gst / non-gst)
+
+Customer Master
+
+customers
+
+customer_contacts (multiple contact persons)
+
+Project Master
+
+projects (project type Movie, Serial, Web Series, Ad, Teaser, Trilogy)
+
+Room Master
+
+rooms (type: Sound, Music, VFX, Client Office, etc.)
+
+Editor Master
+
+editors (type, name, join date, leave date, active, ignore_conflict)
+
+Booking
+
+bookings
+
+booking_logs
+
+Booking fields must include:
+(cancel flag, room type, room, customer, project, contact person, editor, from time, to time, actual times, break hours, total hours, status = Planning / Tentative / Confirmed)
+
+Leaves
+
+editor_leaves
+
+Chalan
+
+chalan
+
+chalan_items
+
+chalan_revised
+
+Reports
+
+No separate tables needed, queries only.
+
+✅ 3. BACKEND REQUIREMENTS
+
+Create full CRUD API for:
+
+Masters
+
+Customer (CRUD + multiple contacts)
+
+Project (CRUD + dynamic project types)
+
+Room (CRUD)
+
+Editor (CRUD)
+
+User (CRUD + role assignment)
+
+Operations
+
+Booking (full CRUD + conflict check logic)
+
+Booking cancellation (store reason + mark uneditable)
+
+Booking repeat functionality (repeat booking for multiple days)
+
+Ignore conflict support (allow duplicate booking only if ignore flag is set)
+
+Booking logs (store every edit with timestamp)
+
+Leaves
+
+Editor leave CRUD
+
+Chalan
+
+Create chalan
+
+Revise chalan
+
+Mark chalan/invoice flags on projects
+
+Print format API
+
+Reports APIs
+
+Conflict Report
+
+Booking Report
+
+Editor Report (with printable format)
+
+Chalan Report
+
+User Rights
+
+Role-based access control
+
+Admin has full access
+
+GST user only sees billing
+
+Non-GST only sees non-gst billing
+
+✅ 4. MODERN UI REQUIREMENTS (React)
+
+Use a clean, modern, dashboard UI:
+
+Global Design:
+
+Sidebar navigation (Operations, Masters, Reports, Utility, Windows, Exit)
+
+Topbar (username, date selector, company selector)
+
+Responsive design
+
+Use TailwindCSS or Material UI
+
+Booking UI:
+
+Drag-and-drop monthly calendar
+
+Hover to view booking logs
+
+Color codes:
+
+Cancelled = Red
+
+Planning = Blue
+
+Tentative = Yellow
+
+Confirmed = Green
+
+Form popup with all fields
+
+Checkbox: hide cancelled bookings
+
+Chalan UI:
+
+Print preview page
+
+Export PDF/Excel
+
+Editable revision page
+
+Reports UI:
+
+Filters on top
+
+Export to Excel / CSV
+
+Sortable table columns
+
+Search inside columns
+
+✅ 5. CONNECT FRONTEND TO BACKEND
+
+Create /frontend/src/services/api.js with Axios:
+
+createCustomer(), getCustomers(), etc.
+
+createBooking(), repeatBooking(), cancelBooking(), etc.
+
+getConflictReport(), getEditorReport(), etc.
+
+✅ 6. IMPORTANT CONDITIONS
+
+Replit MUST NOT replace MySQL with PostgreSQL.
+
+Use MySQL Workbench local DB.
+
+Do not use Prisma, Sequelize, or ORMs. Use raw SQL or mysql2.
+
+Generate all CRUD operations.
+
+Generate sample seed data.
+
+Ensure error handling + validation.
+
+Write complete API documentation.
+
+✅ 7. DELIVERABLE OUTPUT FROM REPLIT
+
+Replit must generate:
+
+Backend
+
+✔ Complete Node.js Express API
+✔ MySQL connection
+✔ CRUD controllers
+✔ Routes
+✔ Auth middleware
+✔ SQL Schema file
+✔ Conflict booking algorithm
+✔ Chalan generation logic
+✔ Report APIs
+
+Frontend
+
+✔ Full React app
+✔ Dashboard UI
+✔ Modern booking calendar
+✔ CRUD pages for all masters
+✔ Reports UI + Export
+✔ Chalan print format
+
+🚀 Final Instruction
+
+Build the FULL WORKING PRISM SOFTWARE exactly as per the requirement document.
+Focus on clean code, modular structure, and production-ready UI.
