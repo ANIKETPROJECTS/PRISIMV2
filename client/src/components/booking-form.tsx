@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { AlertTriangle, AlertCircle } from "lucide-react";
+import { AlertTriangle, AlertCircle, Radio } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -37,11 +37,20 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { Booking, Customer, Project, Room, Editor, CustomerContact } from "@shared/schema";
 
 const bookingFormSchema = z.object({
-  roomId: z.string().min(1, "Room is required"),
+  roomType: z.enum(["system", "client"]).default("system"),
+  roomId: z.string().optional(),
+  clientRoomName: z.string().optional(),
+  clientRoomType: z.string().optional(),
+  clientRoomCapacity: z.string().optional(),
   customerId: z.string().min(1, "Customer is required"),
   projectId: z.string().min(1, "Project is required"),
   contactId: z.string().optional(),
+  editorType: z.enum(["system", "client"]).default("system"),
   editorId: z.string().optional(),
+  clientEditorName: z.string().optional(),
+  clientEditorType: z.string().optional(),
+  clientEditorPhone: z.string().optional(),
+  clientEditorEmail: z.string().optional(),
   bookingDate: z.string().min(1, "Date is required"),
   fromTime: z.string().min(1, "Start time is required"),
   toTime: z.string().min(1, "End time is required"),
@@ -73,6 +82,8 @@ export function BookingForm({ open, onOpenChange, booking, defaultDate }: Bookin
   const { toast } = useToast();
   const [conflictResult, setConflictResult] = useState<ConflictResult | null>(null);
   const [isCheckingConflicts, setIsCheckingConflicts] = useState(false);
+  const [roomTypeSelection, setRoomTypeSelection] = useState<"system" | "client">("system");
+  const [editorTypeSelection, setEditorTypeSelection] = useState<"system" | "client">("system");
 
   const { data: rooms = [] } = useQuery<Room[]>({
     queryKey: ["/api/rooms"],
@@ -92,11 +103,20 @@ export function BookingForm({ open, onOpenChange, booking, defaultDate }: Bookin
   const form = useForm<BookingFormValues>({
     resolver: zodResolver(bookingFormSchema),
     defaultValues: {
+      roomType: booking?.roomId ? "system" : "client",
       roomId: booking?.roomId?.toString() || "",
+      clientRoomName: "",
+      clientRoomType: "",
+      clientRoomCapacity: "",
       customerId: booking?.customerId?.toString() || "",
       projectId: booking?.projectId?.toString() || "",
       contactId: booking?.contactId?.toString() || "",
+      editorType: booking?.editorId ? "system" : "client",
       editorId: booking?.editorId?.toString() || "",
+      clientEditorName: "",
+      clientEditorType: "",
+      clientEditorPhone: "",
+      clientEditorEmail: "",
       bookingDate: booking?.bookingDate || (defaultDate ? format(defaultDate, "yyyy-MM-dd") : ""),
       fromTime: booking?.fromTime || "09:00",
       toTime: booking?.toTime || "18:00",
@@ -171,11 +191,18 @@ export function BookingForm({ open, onOpenChange, booking, defaultDate }: Bookin
   const createMutation = useMutation({
     mutationFn: async (data: BookingFormValues) => {
       return apiRequest("POST", "/api/bookings", {
-        roomId: parseInt(data.roomId),
+        roomId: data.roomType === "system" && data.roomId ? parseInt(data.roomId) : null,
+        clientRoomName: data.roomType === "client" ? data.clientRoomName : null,
+        clientRoomType: data.roomType === "client" ? data.clientRoomType : null,
+        clientRoomCapacity: data.roomType === "client" && data.clientRoomCapacity ? parseInt(data.clientRoomCapacity) : null,
         customerId: parseInt(data.customerId),
         projectId: parseInt(data.projectId),
         contactId: data.contactId ? parseInt(data.contactId) : null,
-        editorId: data.editorId ? parseInt(data.editorId) : null,
+        editorId: data.editorType === "system" && data.editorId ? parseInt(data.editorId) : null,
+        clientEditorName: data.editorType === "client" ? data.clientEditorName : null,
+        clientEditorType: data.editorType === "client" ? data.clientEditorType : null,
+        clientEditorPhone: data.editorType === "client" ? data.clientEditorPhone : null,
+        clientEditorEmail: data.editorType === "client" ? data.clientEditorEmail : null,
         bookingDate: data.bookingDate,
         fromTime: data.fromTime,
         toTime: data.toTime,
@@ -207,11 +234,18 @@ export function BookingForm({ open, onOpenChange, booking, defaultDate }: Bookin
   const updateMutation = useMutation({
     mutationFn: async (data: BookingFormValues) => {
       return apiRequest("PATCH", `/api/bookings/${booking?.id}`, {
-        roomId: parseInt(data.roomId),
+        roomId: data.roomType === "system" && data.roomId ? parseInt(data.roomId) : null,
+        clientRoomName: data.roomType === "client" ? data.clientRoomName : null,
+        clientRoomType: data.roomType === "client" ? data.clientRoomType : null,
+        clientRoomCapacity: data.roomType === "client" && data.clientRoomCapacity ? parseInt(data.clientRoomCapacity) : null,
         customerId: parseInt(data.customerId),
         projectId: parseInt(data.projectId),
         contactId: data.contactId ? parseInt(data.contactId) : null,
-        editorId: data.editorId ? parseInt(data.editorId) : null,
+        editorId: data.editorType === "system" && data.editorId ? parseInt(data.editorId) : null,
+        clientEditorName: data.editorType === "client" ? data.clientEditorName : null,
+        clientEditorType: data.editorType === "client" ? data.clientEditorType : null,
+        clientEditorPhone: data.editorType === "client" ? data.clientEditorPhone : null,
+        clientEditorEmail: data.editorType === "client" ? data.clientEditorEmail : null,
         bookingDate: data.bookingDate,
         fromTime: data.fromTime,
         toTime: data.toTime,
@@ -289,11 +323,49 @@ export function BookingForm({ open, onOpenChange, booking, defaultDate }: Bookin
             <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
+                name="roomType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Room Type *</FormLabel>
+                    <div className="flex gap-4 mt-2">
+                      <Button
+                        type="button"
+                        variant={roomTypeSelection === "system" ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => {
+                          setRoomTypeSelection("system");
+                          field.onChange("system");
+                        }}
+                        data-testid="button-room-system"
+                      >
+                        System Room
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={roomTypeSelection === "client" ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => {
+                          setRoomTypeSelection("client");
+                          field.onChange("client");
+                        }}
+                        data-testid="button-room-client"
+                      >
+                        Client Room
+                      </Button>
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {roomTypeSelection === "system" ? (
+              <FormField
+                control={form.control}
                 name="roomId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Room *</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <FormLabel>Select Room *</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value || ""}>
                       <FormControl>
                         <SelectTrigger data-testid="select-room">
                           <SelectValue placeholder="Select room" />
@@ -311,7 +383,64 @@ export function BookingForm({ open, onOpenChange, booking, defaultDate }: Bookin
                   </FormItem>
                 )}
               />
+            ) : (
+              <div className="grid grid-cols-3 gap-4">
+                <FormField
+                  control={form.control}
+                  name="clientRoomName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Room Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., My Studio" data-testid="input-client-room-name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="clientRoomType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Room Type</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value || ""}>
+                        <FormControl>
+                          <SelectTrigger data-testid="select-client-room-type">
+                            <SelectValue placeholder="Select type" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="editing">Editing</SelectItem>
+                          <SelectItem value="vfx">VFX</SelectItem>
+                          <SelectItem value="sound">Sound</SelectItem>
+                          <SelectItem value="music">Music</SelectItem>
+                          <SelectItem value="dubbing">Dubbing</SelectItem>
+                          <SelectItem value="mixing">Mixing</SelectItem>
+                          <SelectItem value="client_office">Client Office</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="clientRoomCapacity"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Capacity</FormLabel>
+                      <FormControl>
+                        <Input type="number" placeholder="e.g., 5" min="1" data-testid="input-client-room-capacity" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
 
+            <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
                 name="customerId"
@@ -398,30 +527,136 @@ export function BookingForm({ open, onOpenChange, booking, defaultDate }: Bookin
               />
             </div>
 
-            <FormField
-              control={form.control}
-              name="editorId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Editor</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger data-testid="select-editor">
-                        <SelectValue placeholder="Select editor" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {editors.filter(e => e.isActive).map((editor) => (
-                        <SelectItem key={editor.id} value={editor.id.toString()}>
-                          {editor.name} ({editor.editorType})
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="editorType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Editor Type</FormLabel>
+                    <div className="flex gap-4 mt-2">
+                      <Button
+                        type="button"
+                        variant={editorTypeSelection === "system" ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => {
+                          setEditorTypeSelection("system");
+                          field.onChange("system");
+                        }}
+                        data-testid="button-editor-system"
+                      >
+                        System Editor
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={editorTypeSelection === "client" ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => {
+                          setEditorTypeSelection("client");
+                          field.onChange("client");
+                        }}
+                        data-testid="button-editor-client"
+                      >
+                        Client Editor
+                      </Button>
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {editorTypeSelection === "system" ? (
+              <FormField
+                control={form.control}
+                name="editorId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Select Editor</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value || ""}>
+                      <FormControl>
+                        <SelectTrigger data-testid="select-editor">
+                          <SelectValue placeholder="Select editor" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {editors.filter(e => e.isActive).map((editor) => (
+                          <SelectItem key={editor.id} value={editor.id.toString()}>
+                            {editor.name} ({editor.editorType})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ) : (
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="clientEditorName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Editor Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., John Doe" data-testid="input-client-editor-name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="clientEditorType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Editor Type</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value || ""}>
+                        <FormControl>
+                          <SelectTrigger data-testid="select-client-editor-type">
+                            <SelectValue placeholder="Select type" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="video">Video</SelectItem>
+                          <SelectItem value="audio">Audio</SelectItem>
+                          <SelectItem value="vfx">VFX</SelectItem>
+                          <SelectItem value="colorist">Colorist</SelectItem>
+                          <SelectItem value="di">DI</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="clientEditorPhone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., 9876543210" data-testid="input-client-editor-phone" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="clientEditorEmail"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="e.g., john@example.com" data-testid="input-client-editor-email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
 
             <div className="grid grid-cols-3 gap-4">
               <FormField

@@ -96,7 +96,7 @@ export const editors = pgTable("editors", {
 // Bookings
 export const bookings = pgTable("bookings", {
   id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-  roomId: integer("room_id").references(() => rooms.id).notNull(),
+  roomId: integer("room_id").references(() => rooms.id),
   customerId: integer("customer_id").references(() => customers.id).notNull(),
   projectId: integer("project_id").references(() => projects.id).notNull(),
   contactId: integer("contact_id").references(() => customerContacts.id),
@@ -112,6 +112,15 @@ export const bookings = pgTable("bookings", {
   cancelReason: text("cancel_reason"),
   cancelledAt: timestamp("cancelled_at"),
   notes: text("notes"),
+  // Client Room Details (when using client's own room)
+  clientRoomName: text("client_room_name"),
+  clientRoomType: roomTypeEnum("client_room_type"),
+  clientRoomCapacity: integer("client_room_capacity"),
+  // Client Editor Details (when using client's own editor)
+  clientEditorName: text("client_editor_name"),
+  clientEditorType: editorTypeEnum("client_editor_type"),
+  clientEditorPhone: text("client_editor_phone"),
+  clientEditorEmail: text("client_editor_email"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
