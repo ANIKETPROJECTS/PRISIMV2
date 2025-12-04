@@ -143,12 +143,12 @@ export default function LoginPage() {
                     <FormItem>
                       <FormLabel>Security PIN</FormLabel>
                       <FormControl>
-                        <div className="relative">
-                          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <div className="relative flex items-center">
+                          <Lock className="absolute left-3 h-4 w-4 text-muted-foreground pointer-events-none z-10" />
                           <Input
                             type={showPin ? "text" : "password"}
                             placeholder="Enter your PIN"
-                            className="pl-10 pr-10"
+                            className="pl-10 pr-12"
                             data-testid="input-security-pin"
                             {...field}
                           />
@@ -156,7 +156,7 @@ export default function LoginPage() {
                             type="button"
                             variant="ghost"
                             size="icon"
-                            className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
+                            className="absolute right-1 h-7 w-7"
                             onClick={() => setShowPin(!showPin)}
                             data-testid="button-toggle-pin-visibility"
                           >
