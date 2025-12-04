@@ -64,7 +64,7 @@ export function BookingCard({
               <div className="w-full h-0.5 bg-destructive/70 transform -rotate-12" />
             </div>
           )}
-          <div className="flex items-start justify-between gap-1">
+          <div className="flex items-start justify-between gap-1 overflow-hidden">
             <div className="flex-1 min-w-0">
               <p className={cn("text-sm font-medium truncate", !isEditable && "line-through text-muted-foreground")}>
                 {booking.customer?.name || "Unknown Customer"}
@@ -82,7 +82,7 @@ export function BookingCard({
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-6 w-6 shrink-0"
+                    className="h-6 w-6 flex-shrink-0"
                     onClick={(e) => e.stopPropagation()}
                     data-testid={`booking-menu-${booking.id}`}
                   >
