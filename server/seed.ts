@@ -100,10 +100,10 @@ async function seed() {
 
     console.log("Created editors:", editorsData.length);
 
-    // Create Bookings for different dates
+    // Create Bookings for different dates with various configurations
     const today = new Date();
     const bookingsData = await db.insert(bookings).values([
-      // Current and future bookings
+      // System Room + System Editor (existing bookings)
       { roomId: roomsData[0].id, customerId: customersData[0].id, projectId: projectsData[0].id, contactId: contactsData[0].id, editorId: editorsData[0].id, bookingDate: "2025-12-04", fromTime: "09:00", toTime: "13:00", status: "confirmed", totalHours: 4, notes: "Main editing session" },
       { roomId: roomsData[1].id, customerId: customersData[1].id, projectId: projectsData[1].id, contactId: contactsData[2].id, editorId: editorsData[1].id, bookingDate: "2025-12-04", fromTime: "14:00", toTime: "18:00", status: "confirmed", totalHours: 4, notes: "Audio mixing" },
       { roomId: roomsData[2].id, customerId: customersData[0].id, projectId: projectsData[0].id, contactId: contactsData[1].id, editorId: editorsData[2].id, bookingDate: "2025-12-05", fromTime: "10:00", toTime: "15:00", status: "tentative", totalHours: 5, notes: "VFX work" },
@@ -112,6 +112,16 @@ async function seed() {
       { roomId: roomsData[5].id, customerId: customersData[3].id, projectId: projectsData[2].id, contactId: contactsData[4].id, editorId: editorsData[1].id, bookingDate: "2025-12-06", fromTime: "14:00", toTime: "18:00", status: "confirmed", totalHours: 4, notes: "Dubbing session" },
       { roomId: roomsData[0].id, customerId: customersData[0].id, projectId: projectsData[3].id, contactId: contactsData[0].id, editorId: editorsData[0].id, bookingDate: "2025-12-07", fromTime: "10:00", toTime: "16:00", status: "tentative", totalHours: 6, notes: "Teaser editing" },
       { roomId: roomsData[1].id, customerId: customersData[1].id, projectId: projectsData[1].id, contactId: contactsData[2].id, editorId: editorsData[2].id, bookingDate: "2025-12-08", fromTime: "09:00", toTime: "17:00", status: "planning", totalHours: 8, notes: "Full day editing session" },
+      // Client Room + System Editor
+      { customerId: customersData[2].id, projectId: projectsData[2].id, contactId: contactsData[3].id, editorId: editorsData[3].id, clientRoomName: "Paramount Studios", clientRoomType: "editing", bookingDate: "2025-12-09", fromTime: "10:00", toTime: "14:00", status: "confirmed", totalHours: 4, notes: "Client provided editing suite" },
+      // System Room + Client Editor
+      { roomId: roomsData[6].id, customerId: customersData[3].id, projectId: projectsData[0].id, contactId: contactsData[4].id, clientEditorName: "Kavya Sharma", clientEditorType: "audio", clientEditorPhone: "9988776655", clientEditorEmail: "kavya.sharma@freelance.com", bookingDate: "2025-12-10", fromTime: "11:00", toTime: "15:00", status: "tentative", totalHours: 4, notes: "Client's audio specialist" },
+      // Client Room + Client Editor
+      { customerId: customersData[0].id, projectId: projectsData[4].id, contactId: contactsData[0].id, clientRoomName: "Silverscreen Productions", clientRoomType: "vfx", clientEditorName: "Aditya Patel", clientEditorType: "vfx", clientEditorPhone: "9911223344", clientEditorEmail: "aditya.vfx@company.com", bookingDate: "2025-12-11", fromTime: "09:00", toTime: "13:00", status: "planning", totalHours: 4, notes: "Client's VFX studio and artist" },
+      // Mixed: System Room + Client Editor (alternative supplier)
+      { roomId: roomsData[4].id, customerId: customersData[1].id, projectId: projectsData[1].id, contactId: contactsData[2].id, clientEditorName: "Zara Khan", clientEditorType: "video", clientEditorPhone: "9944556677", clientEditorEmail: "zara.khan@freelance.com", bookingDate: "2025-12-12", fromTime: "14:00", toTime: "18:00", status: "confirmed", totalHours: 4, notes: "Freelance video editor for special work" },
+      // Client Room Only (no editor assigned yet)
+      { customerId: customersData[2].id, projectId: projectsData[3].id, contactId: contactsData[3].id, clientRoomName: "Dream Studios Mumbai", clientRoomType: "sound", bookingDate: "2025-12-13", fromTime: "10:00", toTime: "12:00", status: "planning", totalHours: 2, notes: "Client facility, editor TBD" },
     ]).returning();
 
     console.log("Created bookings:", bookingsData.length);

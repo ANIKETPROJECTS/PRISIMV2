@@ -41,7 +41,6 @@ const bookingFormSchema = z.object({
   roomId: z.string().optional(),
   clientRoomName: z.string().optional(),
   clientRoomType: z.string().optional(),
-  clientRoomCapacity: z.string().optional(),
   customerId: z.string().min(1, "Customer is required"),
   projectId: z.string().min(1, "Project is required"),
   contactId: z.string().optional(),
@@ -51,7 +50,15 @@ const bookingFormSchema = z.object({
   clientEditorType: z.string().optional(),
   clientEditorPhone: z.string().optional(),
   clientEditorEmail: z.string().optional(),
-  bookingDate: z.string().min(1, "Date is required"),
+  bookingDate: z.string().min(1, "Date is required").refine(
+    (date) => {
+      const selectedDate = new Date(date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return selectedDate >= today;
+    },
+    { message: "Cannot book for past dates" }
+  ),
   fromTime: z.string().min(1, "Start time is required"),
   toTime: z.string().min(1, "End time is required"),
   actualFromTime: z.string().optional(),
@@ -107,7 +114,6 @@ export function BookingForm({ open, onOpenChange, booking, defaultDate }: Bookin
       roomId: booking?.roomId?.toString() || "",
       clientRoomName: "",
       clientRoomType: "",
-      clientRoomCapacity: "",
       customerId: booking?.customerId?.toString() || "",
       projectId: booking?.projectId?.toString() || "",
       contactId: booking?.contactId?.toString() || "",
@@ -194,7 +200,6 @@ export function BookingForm({ open, onOpenChange, booking, defaultDate }: Bookin
         roomId: data.roomType === "system" && data.roomId ? parseInt(data.roomId) : null,
         clientRoomName: data.roomType === "client" ? data.clientRoomName : null,
         clientRoomType: data.roomType === "client" ? data.clientRoomType : null,
-        clientRoomCapacity: data.roomType === "client" && data.clientRoomCapacity ? parseInt(data.clientRoomCapacity) : null,
         customerId: parseInt(data.customerId),
         projectId: parseInt(data.projectId),
         contactId: data.contactId ? parseInt(data.contactId) : null,
@@ -237,7 +242,6 @@ export function BookingForm({ open, onOpenChange, booking, defaultDate }: Bookin
         roomId: data.roomType === "system" && data.roomId ? parseInt(data.roomId) : null,
         clientRoomName: data.roomType === "client" ? data.clientRoomName : null,
         clientRoomType: data.roomType === "client" ? data.clientRoomType : null,
-        clientRoomCapacity: data.roomType === "client" && data.clientRoomCapacity ? parseInt(data.clientRoomCapacity) : null,
         customerId: parseInt(data.customerId),
         projectId: parseInt(data.projectId),
         contactId: data.contactId ? parseInt(data.contactId) : null,
@@ -384,7 +388,7 @@ export function BookingForm({ open, onOpenChange, booking, defaultDate }: Bookin
                 )}
               />
             ) : (
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
                   name="clientRoomName"
@@ -420,19 +424,6 @@ export function BookingForm({ open, onOpenChange, booking, defaultDate }: Bookin
                           <SelectItem value="client_office">Client Office</SelectItem>
                         </SelectContent>
                       </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="clientRoomCapacity"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Capacity</FormLabel>
-                      <FormControl>
-                        <Input type="number" placeholder="e.g., 5" min="1" data-testid="input-client-room-capacity" {...field} />
-                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}

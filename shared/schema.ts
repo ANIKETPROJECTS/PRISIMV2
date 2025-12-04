@@ -115,7 +115,6 @@ export const bookings = pgTable("bookings", {
   // Client Room Details (when using client's own room)
   clientRoomName: text("client_room_name"),
   clientRoomType: roomTypeEnum("client_room_type"),
-  clientRoomCapacity: integer("client_room_capacity"),
   // Client Editor Details (when using client's own editor)
   clientEditorName: text("client_editor_name"),
   clientEditorType: editorTypeEnum("client_editor_type"),
