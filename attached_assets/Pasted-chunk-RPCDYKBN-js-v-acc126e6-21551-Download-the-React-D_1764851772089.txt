@@ -1,0 +1,70 @@
+chunk-RPCDYKBN.js?v=acc126e6:21551 Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+/api/bookings?from=2025-12-01&to=2025-12-31:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+/api/bookings/check-conflicts:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+booking-form.tsx:175 Error checking conflicts: Error: 500: {"message":"column bookings.client_room_name does not exist"}
+    at throwIfResNotOk (queryClient.ts:6:11)
+    at async apiRequest (queryClient.ts:22:3)
+    at async booking-form.tsx:165:24
+(anonymous) @ booking-form.tsx:175
+/api/bookings/check-conflicts:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)
+booking-form.tsx:175 Error checking conflicts: Error: 500: {"message":"column bookings.client_room_name does not exist"}
+    at throwIfResNotOk (queryClient.ts:6:11)
+    at async apiRequest (queryClient.ts:22:3)
+    at async booking-form.tsx:165:24
+(anonymous) @ booking-form.tsx:175
+chunk-RPCDYKBN.js?v=acc126e6:521 Warning: A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components
+    at input
+    at _c (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/src/components/ui/input.tsx:20:11)
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-2K77HOHX.js?v=acc126e6:79:13
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-2K77HOHX.js?v=acc126e6:56:13
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/src/components/ui/form.tsx:124:9
+    at div
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/src/components/ui/form.tsx:72:6
+    at Controller (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-4BFJKWC4.js?v=acc126e6:298:35)
+    at FormField (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/src/components/ui/form.tsx:33:6)
+    at form
+    at FormProvider (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-4BFJKWC4.js?v=acc126e6:102:11)
+    at div
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-AXMZZQ2X.js?v=acc126e6:42:13
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-S2ZUYA2N.js?v=acc126e6:61:7
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-2K77HOHX.js?v=acc126e6:79:13
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-2K77HOHX.js?v=acc126e6:56:13
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-AXMZZQ2X.js?v=acc126e6:42:13
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-UDJZONCO.js?v=acc126e6:29:5
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=acc126e6:237:13
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=acc126e6:160:58
+    at Presence (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WIIJQEXM.js?v=acc126e6:24:11)
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=acc126e6:151:64
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-2K77HOHX.js?v=acc126e6:79:13
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-2K77HOHX.js?v=acc126e6:56:13
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-AXMZZQ2X.js?v=acc126e6:42:13
+    at https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-S2ZUYA2N.js?v=acc126e6:260:22
+    at Presence (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WIIJQEXM.js?v=acc126e6:24:11)
+    at Provider (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-5AJU3CG7.js?v=acc126e6:38:15)
+    at DialogPortal (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=acc126e6:113:11)
+    at _c3 (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/src/components/ui/dialog.tsx:52:12)
+    at Provider (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-5AJU3CG7.js?v=acc126e6:38:15)
+    at Dialog (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=acc126e6:54:5)
+    at BookingForm (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/src/components/booking-form.tsx:86:31)
+    at div
+    at BookingPage (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/src/pages/booking.tsx:70:45)
+    at Route (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=acc126e6:323:16)
+    at Switch (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=acc126e6:379:17)
+    at main
+    at SidebarInset (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/src/components/ui/sidebar.tsx:417:25)
+    at div
+    at div
+    at Provider (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-5AJU3CG7.js?v=acc126e6:38:15)
+    at TooltipProvider (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=acc126e6:63:5)
+    at SidebarProvider (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/src/components/ui/sidebar.tsx:59:3)
+    at ProtectedRoute (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/src/App.tsx?v=uyUm3c7oO41L5A3PkcJqX:43:27)
+    at AppRoutes (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/src/App.tsx?v=uyUm3c7oO41L5A3PkcJqX:66:31)
+    at Provider (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-5AJU3CG7.js?v=acc126e6:38:15)
+    at TooltipProvider (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=acc126e6:63:5)
+    at AuthProvider (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/src/lib/auth-context.tsx:20:32)
+    at ThemeProvider (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/src/lib/theme-provider.tsx:20:33)
+    at QueryClientProvider (https://5f0d9c1f-c015-4080-bf43-8e354373246a-00-3uygzlqvzfesv.riker.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=acc126e6:2805:3)
+    at App
+printWarning @ chunk-RPCDYKBN.js?v=acc126e6:521
+/api/bookings:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
+/api/bookings:1  Failed to load resource: the server responded with a status of 400 (Bad Request)
