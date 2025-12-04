@@ -281,7 +281,7 @@ export default function BookingPage() {
                 <div
                   key={day.toISOString()}
                   className={cn(
-                    "bg-background min-h-[120px] p-1 flex flex-col relative",
+                    "bg-background min-h-[120px] p-1 flex flex-col relative group",
                     !isCurrentMonth && "bg-muted/30"
                   )}
                   data-testid={`calendar-day-${format(day, "yyyy-MM-dd")}`}
@@ -300,7 +300,7 @@ export default function BookingPage() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-6 w-6 opacity-0 group-hover:opacity-100 hover:opacity-100"
+                        className="h-6 w-6 opacity-0 group-hover:opacity-100"
                         onClick={() => handleNewBooking(day)}
                         data-testid={`button-add-booking-${format(day, "yyyy-MM-dd")}`}
                       >
