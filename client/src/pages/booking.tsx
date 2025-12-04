@@ -275,12 +275,13 @@ export default function BookingPage() {
               const dayBookings = getBookingsForDay(day);
               const isToday = isSameDay(day, new Date());
               const isCurrentMonth = isSameMonth(day, currentMonth);
+              const isPastDay = day < new Date() && !isToday;
 
               return (
                 <div
                   key={day.toISOString()}
                   className={cn(
-                    "bg-background min-h-[120px] p-1 flex flex-col",
+                    "bg-background min-h-[120px] p-1 flex flex-col relative",
                     !isCurrentMonth && "bg-muted/30"
                   )}
                   data-testid={`calendar-day-${format(day, "yyyy-MM-dd")}`}
@@ -295,7 +296,7 @@ export default function BookingPage() {
                     >
                       {format(day, "d")}
                     </span>
-                    {isCurrentMonth && (
+                    {isCurrentMonth && !isPastDay && (
                       <Button
                         variant="ghost"
                         size="icon"
@@ -322,16 +323,6 @@ export default function BookingPage() {
                       ))}
                     </div>
                   </ScrollArea>
-
-                  {dayBookings.length === 0 && isCurrentMonth && (
-                    <div
-                      className="flex-1 flex items-center justify-center border border-dashed rounded-md text-xs text-muted-foreground cursor-pointer hover-elevate"
-                      onClick={() => handleNewBooking(day)}
-                    >
-                      <Plus className="h-3 w-3 mr-1" />
-                      Add
-                    </div>
-                  )}
                 </div>
               );
             })}

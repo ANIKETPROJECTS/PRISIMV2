@@ -657,7 +657,12 @@ export function BookingForm({ open, onOpenChange, booking, defaultDate }: Bookin
                   <FormItem>
                     <FormLabel>Date *</FormLabel>
                     <FormControl>
-                      <Input type="date" data-testid="input-booking-date" {...field} />
+                      <Input 
+                        type="date" 
+                        min={format(new Date(), "yyyy-MM-dd")}
+                        data-testid="input-booking-date" 
+                        {...field} 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
