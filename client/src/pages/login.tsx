@@ -32,6 +32,8 @@ export default function LoginPage() {
 
   const { data: companies = [] } = useQuery<Company[]>({
     queryKey: ["/api/companies"],
+    staleTime: 0,
+    refetchOnMount: true,
   });
 
   const form = useForm<LoginForm>({
