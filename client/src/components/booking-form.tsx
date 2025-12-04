@@ -64,7 +64,7 @@ const bookingFormSchema = z.object({
   actualFromTime: z.string().optional(),
   actualToTime: z.string().optional(),
   breakHours: z.string().default("0"),
-  status: z.enum(["planning", "tentative", "confirmed"]),
+  status: z.enum(["planning", "tentative", "confirmed", "cancelled"]),
   notes: z.string().optional(),
   repeatDays: z.number().optional(),
 });
@@ -806,6 +806,7 @@ export function BookingForm({ open, onOpenChange, booking, defaultDate }: Bookin
                         <SelectItem value="planning">Planning</SelectItem>
                         <SelectItem value="tentative">Tentative</SelectItem>
                         <SelectItem value="confirmed">Confirmed</SelectItem>
+                        {booking && <SelectItem value="cancelled">Cancelled</SelectItem>}
                       </SelectContent>
                     </Select>
                     <FormMessage />
