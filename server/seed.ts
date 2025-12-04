@@ -1,13 +1,25 @@
 import { db } from "./db";
-import { companies, users, rooms, customers, customerContacts, projects, editors, bookings, chalans, chalanItems, editorLeaves } from "@shared/schema";
+import { companies, users, rooms, customers, customerContacts, projects, editors, bookings, bookingLogs, chalans, chalanItems, editorLeaves } from "@shared/schema";
 
 async function seed() {
   console.log("Seeding database...");
 
-  // Check if companies already exist
-  const existingCompanies = await db.select().from(companies);
-  
-  if (existingCompanies.length === 0) {
+  // Always re-seed to get fresh data with new bookings
+  // Delete all dependent data first
+  await db.delete(bookingLogs);
+  await db.delete(bookings);
+  await db.delete(editorLeaves);
+  await db.delete(chalanItems);
+  await db.delete(chalans);
+  await db.delete(customerContacts);
+  await db.delete(projects);
+  await db.delete(customers);
+  await db.delete(rooms);
+  await db.delete(editors);
+  await db.delete(users);
+  await db.delete(companies);
+
+  {
     // Create the two companies
     const [prismCompany] = await db.insert(companies).values({
       name: "PRISM",
@@ -103,9 +115,13 @@ async function seed() {
     // Create Bookings for different dates with various configurations
     const today = new Date();
     const bookingsData = await db.insert(bookings).values([
-      // System Room + System Editor (existing bookings)
+      // System Room + System Editor (Dec 4 - multiple bookings)
       { roomId: roomsData[0].id, customerId: customersData[0].id, projectId: projectsData[0].id, contactId: contactsData[0].id, editorId: editorsData[0].id, bookingDate: "2025-12-04", fromTime: "09:00", toTime: "13:00", status: "confirmed", totalHours: 4, notes: "Main editing session" },
       { roomId: roomsData[1].id, customerId: customersData[1].id, projectId: projectsData[1].id, contactId: contactsData[2].id, editorId: editorsData[1].id, bookingDate: "2025-12-04", fromTime: "14:00", toTime: "18:00", status: "confirmed", totalHours: 4, notes: "Audio mixing" },
+      // Additional bookings on Dec 4 to show multiple bookings in a day
+      { roomId: roomsData[2].id, customerId: customersData[2].id, projectId: projectsData[2].id, contactId: contactsData[3].id, editorId: editorsData[2].id, bookingDate: "2025-12-04", fromTime: "08:00", toTime: "10:00", status: "planning", totalHours: 2, notes: "Quick VFX consultation" },
+      { roomId: roomsData[3].id, customerId: customersData[3].id, projectId: projectsData[1].id, contactId: contactsData[4].id, editorId: editorsData[3].id, bookingDate: "2025-12-04", fromTime: "10:30", toTime: "12:30", status: "tentative", totalHours: 2, notes: "Color correction work" },
+      { roomId: roomsData[4].id, customerId: customersData[0].id, projectId: projectsData[3].id, contactId: contactsData[0].id, editorId: editorsData[4].id, bookingDate: "2025-12-04", fromTime: "15:00", toTime: "17:00", status: "planning", totalHours: 2, notes: "Music selection session" },
       { roomId: roomsData[2].id, customerId: customersData[0].id, projectId: projectsData[0].id, contactId: contactsData[1].id, editorId: editorsData[2].id, bookingDate: "2025-12-05", fromTime: "10:00", toTime: "15:00", status: "tentative", totalHours: 5, notes: "VFX work" },
       { roomId: roomsData[3].id, customerId: customersData[2].id, projectId: projectsData[2].id, contactId: contactsData[3].id, editorId: editorsData[3].id, bookingDate: "2025-12-05", fromTime: "16:00", toTime: "20:00", status: "planning", totalHours: 4, notes: "Color grading" },
       { roomId: roomsData[4].id, customerId: customersData[1].id, projectId: projectsData[4].id, contactId: contactsData[2].id, editorId: editorsData[4].id, bookingDate: "2025-12-06", fromTime: "09:00", toTime: "12:00", status: "confirmed", totalHours: 3, notes: "Music composition" },
@@ -160,11 +176,11 @@ async function seed() {
     ]).returning();
 
     console.log("Created chalan items");
-  } else {
-    console.log("Companies already exist, skipping seed");
   }
 
   console.log("Seeding complete!");
 }
+
+seed().catch(console.error);
 
 seed().catch(console.error);
