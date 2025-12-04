@@ -179,27 +179,27 @@ export default function LoginPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Company</FormLabel>
-                      <div className="relative">
-                        <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none z-10" />
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
+                      <FormControl>
+                        <div className="relative">
+                          <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none z-10" />
+                          <Select onValueChange={field.onChange} value={field.value}>
                             <SelectTrigger data-testid="select-company" className="pl-10">
                               <SelectValue placeholder="Select a company" />
                             </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {companies.map((company) => (
-                              <SelectItem 
-                                key={company.id} 
-                                value={company.id.toString()}
-                                data-testid={`select-company-${company.id}`}
-                              >
-                                {company.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
+                            <SelectContent>
+                              {companies.map((company) => (
+                                <SelectItem 
+                                  key={company.id} 
+                                  value={company.id.toString()}
+                                  data-testid={`select-company-${company.id}`}
+                                >
+                                  {company.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
