@@ -201,6 +201,41 @@ export function BookingForm({ open, onOpenChange, booking, defaultDate }: Bookin
     }
   }, [open, defaultDate, booking, form]);
 
+  // Reset form with booking data when editing
+  useEffect(() => {
+    if (open && booking) {
+      const roomType = booking.roomId ? "system" : "client";
+      const editorType = booking.editorId ? "system" : "client";
+      
+      setRoomTypeSelection(roomType);
+      setEditorTypeSelection(editorType);
+      
+      form.reset({
+        roomType,
+        roomId: booking.roomId?.toString() || "",
+        clientRoomName: booking.clientRoomName || "",
+        clientRoomType: booking.clientRoomType || "",
+        customerId: booking.customerId?.toString() || "",
+        projectId: booking.projectId?.toString() || "",
+        contactId: booking.contactId?.toString() || "",
+        editorType,
+        editorId: booking.editorId?.toString() || "",
+        clientEditorName: booking.clientEditorName || "",
+        clientEditorType: booking.clientEditorType || "",
+        clientEditorPhone: booking.clientEditorPhone || "",
+        clientEditorEmail: booking.clientEditorEmail || "",
+        bookingDate: booking.bookingDate || "",
+        fromTime: booking.fromTime || "09:00",
+        toTime: booking.toTime || "18:00",
+        actualFromTime: booking.actualFromTime || "",
+        actualToTime: booking.actualToTime || "",
+        breakHours: booking.breakHours?.toString() || "0",
+        status: (booking.status as any) || "planning",
+        notes: booking.notes || "",
+      });
+    }
+  }, [open, booking, form]);
+
   const createMutation = useMutation({
     mutationFn: async (data: BookingFormValues) => {
       return apiRequest("POST", "/api/bookings", {
