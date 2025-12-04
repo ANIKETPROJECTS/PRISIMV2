@@ -22,6 +22,8 @@ import type { BookingWithRelations, Room, Editor } from "@shared/schema";
 export default function ConflictReportPage() {
   const [fromDate, setFromDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const [toDate, setToDate] = useState(format(new Date(), "yyyy-MM-dd"));
+  const [fromTime, setFromTime] = useState("00:00");
+  const [toTime, setToTime] = useState("23:59");
   const [selectedRoom, setSelectedRoom] = useState<string>("all");
   const [selectedEditor, setSelectedEditor] = useState<string>("all");
 
@@ -30,6 +32,8 @@ export default function ConflictReportPage() {
     to: toDate,
     ...(selectedRoom !== "all" && { roomId: selectedRoom }),
     ...(selectedEditor !== "all" && { editorId: selectedEditor }),
+    ...(fromTime && { fromTime }),
+    ...(toTime && { toTime }),
   }).toString();
 
   const { data: conflicts = [], isLoading } = useQuery<{ booking1: BookingWithRelations; booking2: BookingWithRelations }[]>({
@@ -87,6 +91,26 @@ export default function ConflictReportPage() {
                     value={toDate}
                     onChange={(e) => setToDate(e.target.value)}
                     data-testid="input-to-date"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="from-time">From Time</Label>
+                  <Input
+                    id="from-time"
+                    type="time"
+                    value={fromTime}
+                    onChange={(e) => setFromTime(e.target.value)}
+                    data-testid="input-from-time"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="to-time">To Time</Label>
+                  <Input
+                    id="to-time"
+                    type="time"
+                    value={toTime}
+                    onChange={(e) => setToTime(e.target.value)}
+                    data-testid="input-to-time"
                   />
                 </div>
                 <div>

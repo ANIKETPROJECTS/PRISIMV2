@@ -768,9 +768,19 @@ export class DatabaseStorage implements IStorage {
   }
 
   // Reports
-  async getConflicts(from: string, to: string, roomId?: number, editorId?: number): Promise<any[]> {
+  async getConflicts(from: string, to: string, roomId?: number, editorId?: number, fromTime?: string, toTime?: string): Promise<any[]> {
     const allBookings = await this.getBookings({ from, to, roomId, editorId });
-    const activeBookings = allBookings.filter(b => b.status !== "cancelled");
+    let activeBookings = allBookings.filter(b => b.status !== "cancelled");
+    
+    // Filter by time range if provided
+    if (fromTime && toTime) {
+      activeBookings = activeBookings.filter(b => {
+        const bFromTime = b.fromTime;
+        const bToTime = b.toTime;
+        const hasTimeOverlap = bFromTime < toTime && fromTime < bToTime;
+        return hasTimeOverlap;
+      });
+    }
     
     const conflicts: { booking1: any; booking2: any }[] = [];
     

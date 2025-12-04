@@ -592,12 +592,14 @@ export async function registerRoutes(server: Server, app: Express): Promise<void
       const to = req.query.to as string;
       const roomId = req.query.roomId && req.query.roomId !== "all" ? parseInt(req.query.roomId as string) : undefined;
       const editorId = req.query.editorId && req.query.editorId !== "all" ? parseInt(req.query.editorId as string) : undefined;
+      const fromTime = req.query.fromTime as string | undefined;
+      const toTime = req.query.toTime as string | undefined;
       
       if (!from || !to) {
         return res.status(400).json({ message: "from and to dates are required" });
       }
       
-      const conflicts = await storage.getConflicts(from, to, roomId, editorId);
+      const conflicts = await storage.getConflicts(from, to, roomId, editorId, fromTime, toTime);
       res.json(conflicts);
     } catch (error: any) {
       res.status(500).json({ message: error.message });
