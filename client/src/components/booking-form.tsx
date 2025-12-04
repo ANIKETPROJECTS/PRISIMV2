@@ -194,6 +194,13 @@ export function BookingForm({ open, onOpenChange, booking, defaultDate }: Bookin
     }
   }, [open]);
 
+  // Update booking date when opening with a new defaultDate
+  useEffect(() => {
+    if (open && defaultDate && !booking) {
+      form.setValue("bookingDate", format(defaultDate, "yyyy-MM-dd"));
+    }
+  }, [open, defaultDate, booking, form]);
+
   const createMutation = useMutation({
     mutationFn: async (data: BookingFormValues) => {
       return apiRequest("POST", "/api/bookings", {
